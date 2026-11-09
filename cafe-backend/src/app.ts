@@ -1,4 +1,5 @@
 import Fastify, { type FastifyInstance } from 'fastify';
+import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
 import rateLimit from '@fastify/rate-limit';
 import swagger from '@fastify/swagger';
@@ -100,6 +101,10 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
     };
   });
 
+  await app.register(cors, {
+    origin: true,
+    credentials: true,
+  });
   await app.register(jwt, { secret: config.JWT_SECRET });
   await app.register(rateLimit, { global: false });
   await app.register(swagger, {

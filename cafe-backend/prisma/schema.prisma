@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum MenuAvailability {
+  AVAILABLE
+  UNAVAILABLE
+}
+
+enum OrderStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+enum ReservationStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String        @db.VarChar(100)
+  email        String        @unique @db.VarChar(254)
+  password     String        @db.VarChar(255)
+  role         Role          @default(CUSTOMER)
+  orders       Order[]
+  reservations Reservation[]
+  createdAt    DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime      @updatedAt @db.Timestamptz(3)
+
+  @@index([role])
+}
+
+model Category {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String     @unique @db.VarChar(80)
+  menuItems MenuItem[]
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(3)
+}
+
+model MenuItem {
+  id           String           @id @default(uuid()) @db.Uuid
+  name         String           @db.VarChar(120)
+  description  String           @db.Text
+  price        Decimal          @db.Decimal(10, 2)
+  image        String           @db.Text
+  availability MenuAvailability @default(AVAILABLE)
+  categoryId   String           @db.Uuid
+  category     Category         @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  createdAt    DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime         @updatedAt @db.Timestamptz(3)
+
+  @@index([categoryId])
+  @@index([availability])
+  @@index([categoryId, availability])
+}
+
+model Order {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @db.Uuid
+  user        User        @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  totalAmount Decimal     @db.Decimal(14, 2)
+  status      OrderStatus @default(CONFIRMED)
+  items       OrderItem[]
+  createdAt   DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime    @updatedAt @db.Timestamptz(3)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([status])
+}
+
+model OrderItem {
+  id       String  @id @default(uuid()) @db.Uuid
+  orderId  String  @db.Uuid
+  order    Order   @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  itemName String  @db.VarChar(120)
+  price    Decimal @db.Decimal(10, 2)
+  quantity Int
+
+  @@index([orderId])
+}
+
+model Reservation {
+  id                  String            @id @default(uuid()) @db.Uuid
+  userId              String            @db.Uuid
+  user                User              @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  reservationDateTime DateTime          @db.Timestamptz(3)
+  guestCount          Int
+  status              ReservationStatus @default(CONFIRMED)
+  createdAt           DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime          @updatedAt @db.Timestamptz(3)
+
+  @@index([userId, reservationDateTime])
+  @@index([status, reservationDateTime])
+}
+
+model Table {
+  id       String  @id @default(uuid()) @db.Uuid
+  isActive Boolean @default(true)
+}

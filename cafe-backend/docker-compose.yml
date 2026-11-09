@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cafe_db}
+      POSTGRES_USER: ${POSTGRES_USER:-cafe_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cafe_password}
+    volumes:
+      - cafe_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cafe_user} -d ${POSTGRES_DB:-cafe_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-cafe_user}:${POSTGRES_PASSWORD:-cafe_password}@db:5432/${POSTGRES_DB:-cafe_db}?schema=public
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in your .env file}
+      ADMIN_NAME: ${ADMIN_NAME:?Set ADMIN_NAME in your .env file}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?Set ADMIN_EMAIL in your .env file}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in your .env file}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "${PORT:-4000}:4000"
+
+volumes:
+  cafe_postgres_data:

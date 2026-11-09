@@ -11,10 +11,8 @@ A TypeScript modular-monolith backend for the cafe website. It uses Fastify, Pos
 - Authenticated demonstration orders. Prices are re-read from PostgreSQL, unavailable/deleted items are rejected, totals are computed server-side in minor currency units, and order-item names/prices are snapshots.
 - Customer-owned order history and cancellation for at most 60 seconds after server-side `createdAt`.
 - Authenticated reservations with Asia/Kolkata input interpretation, guest count 1–6, future-date validation, customer-owned history, and cancellation only when at least 24 hours remain.
-- A `Table` model with only `id` and `isActive`; no assignment or capacity behavior.
 - Swagger UI at `/docs`, health endpoint at `/health`, request logging with sensitive-value redaction, and login/registration rate limits.
 
-There are no payment gateways, refunds, webhooks, stock/inventory, delivery, coupons, customer/admin order or reservation dashboards, account deletion, notifications, Redis, workers, microservices, or double-booking prevention.
 
 ## Requirements
 

@@ -26,7 +26,6 @@ There are no payment gateways, refunds, webhooks, stock/inventory, delivery, cou
 
 ```bash
 npm install
-cp .env.example .env
 ```
 
 Edit `.env` and set a unique `JWT_SECRET` with at least 32 characters, the PostgreSQL connection URL, and the seeded admin credentials. The example database URL is suitable only when PostgreSQL is running locally with the example credentials.

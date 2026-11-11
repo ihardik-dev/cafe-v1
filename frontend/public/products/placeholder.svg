@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" fill="none">
+  <rect width="400" height="300" fill="#F5EAD6"/>
+  <circle cx="200" cy="150" r="70" fill="#FAF4E6" stroke="#D9C2A7" stroke-width="2"/>
+  <!-- Coffee Cup Outline -->
+  <path d="M165 130h70v35c0 15-12 25-27 25h-16c-15 0-27-10-27-25v-35z" fill="#7C4624" fill-opacity="0.85"/>
+  <path d="M235 140h12c7 0 13 6 13 13s-6 13-13 13h-12" stroke="#7C4624" stroke-width="4" stroke-linecap="round"/>
+  <path d="M155 195h90" stroke="#7C4624" stroke-width="4" stroke-linecap="round"/>
+  <!-- Steam lines -->
+  <path d="M185 118c0-8 6-12 6-20" stroke="#B87B3E" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M200 115c0-8 6-12 6-20" stroke="#B87B3E" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path d="M215 118c0-8 6-12 6-20" stroke="#B87B3E" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <text x="200" y="235" text-anchor="middle" fill="#635345" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600" letter-spacing="1">ARTISAN ROASTERY</text>
+</svg>
+

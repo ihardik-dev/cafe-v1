@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* User-requested: Light yellow-brown gradient, with brown also kept light */
+  --bg-gradient-start: #faf4e6; /* Soft airy morning ivory-yellow */
+  --bg-gradient-mid: #f5ead6; /* Creamy light honey */
+  --bg-gradient-end: #eee1ce; /* Light warm blonde coffee-brown */
+  --bg-gradient-start-rgb: 250, 244, 230;
+  --bg-gradient-end-rgb: 238, 225, 206;
+
+  /* Surfaces */
+  --surface-primary: #ffffff;
+  --surface-secondary: #f8f2e7;
+  --surface-translucent: rgba(255, 252, 246, 0.82);
+
+  /* Typography */
+  --text-primary: #231a14; /* Roasted espresso (> 12:1 contrast) */
+  --text-secondary: #635345; /* Warm mocha (> 4.8:1 contrast) */
+  --text-tertiary: #8c7a6b; /* Warm hazelnut (> 3.2:1 contrast) */
+
+  /* Brand Accents */
+  --brand-primary: #7c4624;
+  --brand-hover: #66371b;
+  --brand-light: #f5ebe1;
+  --accent-gold: #b87b3e;
+
+  /* Semantic Alerts */
+  --color-destructive: #c93b2b;
+  --color-destructive-hover: #b02a1b;
+  --color-success: #2e7d32;
+
+  /* Borders & Dividers */
+  --border-subdued: rgba(60, 40, 20, 0.08);
+  --border-normal: rgba(60, 40, 20, 0.15);
+  --border-focus: #7c4624;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Motion Defaults */
+  --motion-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 250ms;
+}
+
+.dark {
+  --bg-gradient-start: #1b1613;
+  --bg-gradient-mid: #16120f;
+  --bg-gradient-end: #120e0c;
+  --bg-gradient-start-rgb: 27, 22, 19;
+  --bg-gradient-end-rgb: 18, 14, 12;
+
+  --surface-primary: #241e1a;
+  --surface-secondary: #2f2721;
+  --surface-translucent: rgba(28, 23, 19, 0.85);
+
+  --text-primary: #fdfbf7;
+  --text-secondary: #c8bdb2;
+  --text-tertiary: #94877b;
+
+  --brand-primary: #d98a50;
+  --brand-hover: #eaa368;
+  --brand-light: #3d2b1f;
+  --accent-gold: #e2a057;
+
+  --color-destructive: #ff453a;
+  --color-destructive-hover: #ff6961;
+  --color-success: #34c759;
+
+  --border-subdued: rgba(255, 245, 235, 0.08);
+  --border-normal: rgba(255, 245, 235, 0.16);
+  --border-focus: #d98a50;
+}
+
+/* Base Body Setup */
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-mid) 50%,
+    var(--bg-gradient-end) 100%
+  );
+  background-attachment: fixed;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Reduced Motion Override (Section 8) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reduced Transparency Override (Section 8) */
+@media (prefers-reduced-transparency: reduce) {
+  .translucent-nav,
+  .surface-translucent {
+    backdrop-filter: none !important;
+    background-color: var(--surface-primary) !important;
+  }
+}
+
+/* High Contrast Override (Section 8) */
+@media (prefers-contrast: more) {
+  :root {
+    --border-subdued: rgba(0, 0, 0, 0.3);
+    --border-normal: rgba(0, 0, 0, 0.5);
+  }
+  .dark {
+    --border-subdued: rgba(255, 255, 255, 0.4);
+    --border-normal: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Seamless Screen & Page Video Blending (Uncontained, feathered into canvas) */
+.video-blend-vertical {
+  background: linear-gradient(
+    to bottom,
+    var(--bg-gradient-start) 0%,
+    rgba(var(--bg-gradient-start-rgb), 0.5) 4%,
+    transparent 10%,
+    transparent 90%,
+    rgba(var(--bg-gradient-end-rgb), 0.5) 96%,
+    var(--bg-gradient-end) 100%
+  );
+}
+
+.video-blend-desktop {
+  background: linear-gradient(
+    to right,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-start) 28%,
+    rgba(var(--bg-gradient-start-rgb), 0.88) 42%,
+    rgba(var(--bg-gradient-start-rgb), 0.45) 58%,
+    transparent 78%
+  );
+}
+
+.video-blend-mobile {
+  background: linear-gradient(
+    to top,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-start) 44%,
+    rgba(var(--bg-gradient-start-rgb), 0.85) 58%,
+    rgba(var(--bg-gradient-start-rgb), 0.35) 72%,
+    transparent 88%
+  );
+}

@@ -6,6 +6,17 @@ import type { CreateReservationInput } from './schemas.js';
 export async function createReservation(db: PrismaClient, userId: string, input: CreateReservationInput, now = new Date()) {
   const reservationDateTime = indiaLocalDateTimeToUtc(input.reservationDateTime);
   if (reservationDateTime.getTime() <= now.getTime()) throw new AppError(400, 'Reservation date and time must be in the future');
+  const existingReservation = await db.reservation.findFirst({
+    where: {
+      userId,
+      reservationDateTime,
+      status: 'CONFIRMED',
+    },
+  });
+
+  if (existingReservation) {
+    throw new AppError(409, 'You already have a reservation at this date and time');
+  }
   return db.reservation.create({
     data: { userId, reservationDateTime, guestCount: input.guestCount, status: 'CONFIRMED' },
   });
